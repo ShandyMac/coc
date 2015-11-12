@@ -1,6 +1,7 @@
 package coc.helloworld;
 
 import android.os.Bundle;
+import android.support.annotation.TransitionRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,8 +24,10 @@ import java.util.logging.Level;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView mainTextView;
-    Button mainButton;
+
+    Button btnCalculate;
+    Button btnReset;
+    Army army = new Army();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        ArrayList<Integer> troopCapactiy = new ArrayList<>();
+        for (int i = 0; i < 240; i++) troopCapactiy.add(i);
+
+        Integer[] campCapacity = new Integer[troopCapactiy.size()];
+        troopCapactiy.toArray(campCapacity);
+
+        ConfigureEvents();
+
+        ConfigureSpinner(R.id.spinnerBarbLevel, Barbarian.GetLevels());
+        ConfigureSpinner(R.id.spinnerBarbAmount, campCapacity);
+
+        ConfigureSpinner(R.id.spinnerArcherLevel, Archer.GetLevels());
+        ConfigureSpinner(R.id.spinnerArcherAmount, campCapacity);
+
+        ConfigureSpinner(R.id.spinnerGiantLevel, Giant.GetLevels());
+        ConfigureSpinner(R.id.spinnerGiantAmount, campCapacity);
+
+        ConfigureSpinner(R.id.spinnerGoblinLevel, Goblin.GetLevels());
+        ConfigureSpinner(R.id.spinnerGoblinAmount, campCapacity);
+    }
+
+    private void ConfigureEvents() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,13 +67,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        mainButton = (Button)findViewById(R.id.btnCalculate);
-        mainButton.setOnClickListener(this);
+        btnCalculate = (Button)findViewById(R.id.btnCalculate);
+        btnCalculate.setOnClickListener(this);
+        btnCalculate.setVisibility(View.VISIBLE);
 
-        Spinner barbSpinner = (Spinner)findViewById(R.id.spinnerBarb);
-        Integer[] levels = new Integer[]{1,2,3,4,5,6,7};
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, levels);
-        barbSpinner.setAdapter(adapter);
+        btnReset = (Button)findViewById(R.id.btnReset);
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Reset();
+            }
+        });
+    }
+
+    private void ConfigureSpinner(int spinnerId, Integer[] levels) {
+        Spinner spinner = (Spinner) findViewById(spinnerId);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, levels);
+        spinner.setAdapter(adapter);
     }
 
     @Override
@@ -55,111 +93,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
 
-        Spinner spinner = (Spinner)findViewById(R.id.spinnerBarb);
-        Integer level = (int)spinner.getSelectedItem();
-        Barbarian barb = new Barbarian(level);
+    public void Reset()
+    {
+        TextView cost = (TextView)findViewById(R.id.textViewCost);
+        cost.setText("");
+        Army.Clear();
+        btnReset.setVisibility(View.INVISIBLE);
+        btnCalculate.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        BarbarianConfigurator barbConfigurator = new BarbarianConfigurator(this, R.id.spinnerBarbLevel, R.id.spinnerBarbAmount);
+        ArcherConfigurator archerConfigurator = new ArcherConfigurator(this, R.id.spinnerArcherLevel, R.id.spinnerArcherAmount);
+        GiantConfigurator giantConfigurator = new GiantConfigurator(this, R.id.spinnerGiantLevel, R.id.spinnerGiantAmount);
+        GoblinConfigurator goblinConfigurator = new GoblinConfigurator(this, R.id.spinnerGoblinLevel, R.id.spinnerGoblinAmount);
+
+        army = barbConfigurator.CreateTroops(army);
+        army = archerConfigurator.CreateTroops(army);
+        army = giantConfigurator.CreateTroops(army);
+        army = goblinConfigurator.CreateTroops(army);
+
+        int total = army.GetTotalCost();
 
         TextView cost = (TextView)findViewById(R.id.textViewCost);
-        cost.setText("" + barb.GetTroopCost());
+        cost.setText("" + total);
 
-        //TextView unitCost = (TextView)findViewById(R.id.main_unit_cost);
-        //unitCost.setText("Cost: " + barb.GetTroopCost());
-
-        //TextView unitTrainTime = (TextView)findViewById(R.id.main_unit_name);
-        //unitTrainTime.setText("Training Time: " + barb.GetTrainingTime());
-    }
-}
-
-class ArmyCompositions
-{
-    public static List<Troop> BAM()
-    {
-        List<Troop> army = new ArrayList<Troop>();
-
-        for (int i = 0; i < 5; i++)
-        {
-            Barbarian barb = new Barbarian(5);
-            army.add(barb);
-        }
-
-        return army;
-    }
-}
-
-
-//region Troops
-
-class Troop extends BaseConsumableUnit { }
-
-class Barbarian extends Troop
-{
-    private int _level = 1;
-    private int _troopCost;
-    private ElixerType _troopType = ElixerType.Normal;
-    private int _housingSpace = 1;
-    private ArrayList<LevelCost> _levelCosts;
-
-    private double _troopTrainTime = 0.5;
-
-    public Barbarian(int level)
-    {
-        _level = level;
-        _levelCosts = new ArrayList<LevelCost>();
-        _levelCosts.add(0, new LevelCost(1,25));
-        _levelCosts.add(0, new LevelCost(2,40));
-        _levelCosts.add(0, new LevelCost(3,60));
-        _levelCosts.add(0, new LevelCost(4,100));
-        _levelCosts.add(0, new LevelCost(5,150));
-        _levelCosts.add(0, new LevelCost(6,200));
-        _levelCosts.add(0, new LevelCost(7,250));
-
-        _troopCost = GetCost(_level, _levelCosts);
-    }
-
-    public int GetTroopCost(){ return _troopCost; }
-    public double GetTrainingTime(){ return _troopTrainTime; }
-}
-
-//endregion
-
-
-enum ElixerType
-{
-    Dark,
-    Normal
-}
-
-class LevelCost
-{
-    public int Level;
-    public int Cost;
-
-    public LevelCost(int level, int cost)
-    {
-        Level = level;
-        Cost = cost;
-    }
-}
-
-class BaseConsumableUnit
-{
-    public ElixerType Type;
-    public Collection<LevelCost> LevelCosts;
-    public int ConsumableCost;
-
-    public int GetCost(int level, List<LevelCost> levelCosts)
-    {
-        for (LevelCost cost:levelCosts)
-        {
-            if(cost.Level == level)
-            {
-                return cost.Cost;
-            }
-        }
-
-        return 0;
+        btnReset.setVisibility(View.VISIBLE);
+        btnCalculate.setVisibility(View.GONE);
     }
 }

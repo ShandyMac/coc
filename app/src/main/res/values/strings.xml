@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CoC Unit Calculator</string>
-    <string name="calcbutton">Calculate</string>
+    <string name="calc_button">Calculate</string>
+    <string name="reset_button">Reset</string>
     <string name="action_settings">Settings</string>
 
 
@@ -12,7 +13,8 @@
     <string name="barbarian">Barbarian:</string>
     <string name="archer">Archer:</string>
     <string name="giant">Giant:</string>
+    <string name="goblin">Goblin:</string>
 
-    <string name="totalCost">Total Cost: </string>
+    <string name="total_cost">Total Cost: </string>
 
 </resources>
