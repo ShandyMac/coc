@@ -19,11 +19,11 @@
         <TextView
             android:layout_width="@dimen/unit_name_width"
             android:layout_height="wrap_content"
-            android:text="@string/goblin"
+            android:text="@string/barbarian"
             android:paddingRight="10dp"/>
 
         <Spinner
-            android:id="@+id/spinnerGoblinAmount"
+            android:id="@+id/spinnerBarbAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
@@ -32,7 +32,7 @@
             android:gravity="center"/>
 
         <Spinner
-            android:id="@+id/spinnerGoblinLevel"
+            android:id="@+id/spinnerBarbLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
@@ -101,7 +101,7 @@
             android:gravity="center"/>
     </LinearLayout>
 
-    <!--Giant-->
+    <!--Goblin-->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/layout_height"
@@ -109,11 +109,11 @@
         <TextView
             android:layout_width="@dimen/unit_name_width"
             android:layout_height="wrap_content"
-            android:text="@string/giant"
+            android:text="@string/goblin"
             android:paddingRight="10dp"/>
 
         <Spinner
-            android:id="@+id/spinnerGiantAmount"
+            android:id="@+id/spinnerGoblinAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
@@ -122,7 +122,7 @@
             android:gravity="center"/>
 
         <Spinner
-            android:id="@+id/spinnerGiantLevel"
+            android:id="@+id/spinnerGoblinLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
