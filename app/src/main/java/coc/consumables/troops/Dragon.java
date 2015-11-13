@@ -1,30 +1,32 @@
-package coc.helloworld;
+package coc.consumables.troops;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import coc.consumables.BaseConsumableUnit;
+import coc.consumables.ElixerType;
+import coc.consumables.LevelCost;
+
 /**
- * Created by Andrew_Ma on 12/11/2015.
+ * Created by Andrew_Ma on 13/11/2015.
  */
-public class Archer extends BaseConsumableUnit {
+public class Dragon extends BaseConsumableUnit {
     private int _level = 1;
     private int _troopCost;
     private ElixerType _troopType = ElixerType.Normal;
-    private int _housingSpace = 1;
+    private int _housingSpace = 20;
     private ArrayList<LevelCost> _levelCosts;
     private Integer[] _levels;
 
-    public Archer(int level)
+    public Dragon(int level)
     {
         _level = level;
         _levelCosts = new ArrayList<>();
-        _levelCosts.add(0, new LevelCost(1,50));
-        _levelCosts.add(0, new LevelCost(2,80));
-        _levelCosts.add(0, new LevelCost(3,120));
-        _levelCosts.add(0, new LevelCost(4,200));
-        _levelCosts.add(0, new LevelCost(5,300));
-        _levelCosts.add(0, new LevelCost(6,400));
-        _levelCosts.add(0, new LevelCost(7,500));
+        _levelCosts.add(new LevelCost(1,25000));
+        _levelCosts.add(new LevelCost(2,29000));
+        _levelCosts.add(new LevelCost(3,33000));
+        _levelCosts.add(new LevelCost(4,37000));
+        _levelCosts.add(new LevelCost(5,42000));
 
         _troopCost = GetCost();
 
@@ -54,7 +56,7 @@ public class Archer extends BaseConsumableUnit {
     public static Integer[] GetLevels() {
         ArrayList<Integer> levels  = new ArrayList();
 
-        for(int i = 1; i < 8; i++ ) { levels.add(i); }
+        for(int i = 1; i < 6; i++ ) { levels.add(i); }
 
         Integer[] asArray = new Integer[levels.size()];
 

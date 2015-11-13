@@ -1,7 +1,6 @@
-package coc.helloworld;
+package coc.unitCalculator.configurators;
 
-import java.util.ArrayList;
-import java.util.List;
+import coc.unitCalculator.Army;
 
 /**
  * Created by Andrew_Ma on 12/11/2015.

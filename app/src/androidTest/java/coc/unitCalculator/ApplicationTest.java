@@ -1,4 +1,4 @@
-package coc.helloworld;
+package coc.unitCalculator;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

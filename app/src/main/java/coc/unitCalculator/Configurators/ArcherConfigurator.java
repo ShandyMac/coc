@@ -1,9 +1,9 @@
-package coc.helloworld;
+package coc.unitCalculator.configurators;
 
 import android.app.Activity;
-import android.graphics.drawable.Icon;
 
-import java.util.ArrayList;
+import coc.unitCalculator.Army;
+import coc.consumables.troops.Archer;
 
 /**
  * Created by Andrew_Ma on 12/11/2015.

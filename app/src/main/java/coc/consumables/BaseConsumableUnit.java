@@ -1,7 +1,6 @@
-package coc.helloworld;
+package coc.consumables;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Andrew_Ma on 12/11/2015.
@@ -26,4 +25,6 @@ public abstract class BaseConsumableUnit implements IBaseConsumableUnit {
 
         return 0;
     }
+
+    public ElixerType GetType(){ return GetElixerType(); }
 }

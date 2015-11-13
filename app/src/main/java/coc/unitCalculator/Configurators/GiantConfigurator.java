@@ -1,6 +1,9 @@
-package coc.helloworld;
+package coc.unitCalculator.configurators;
 
 import android.app.Activity;
+
+import coc.unitCalculator.Army;
+import coc.consumables.troops.Giant;
 
 /**
  * Created by Andrew_Ma on 12/11/2015.

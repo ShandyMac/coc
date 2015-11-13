@@ -1,4 +1,4 @@
-package coc.helloworld;
+package coc.consumables;
 
 /**
  * Created by Andrew_Ma on 12/11/2015.

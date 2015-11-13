@@ -1,30 +1,34 @@
-package coc.helloworld;
+package coc.consumables.troops;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import coc.consumables.BaseConsumableUnit;
+import coc.consumables.ElixerType;
+import coc.consumables.LevelCost;
+
 /**
  * Created by Andrew_Ma on 12/11/2015.
  */
-public class Goblin extends BaseConsumableUnit {
+public class Wallbreaker extends BaseConsumableUnit {
     private int _troopCost;
     private int _level = 1;
-    private int _housingSpace = 1;
+    private int _housingSpace = 2;
     private ArrayList<LevelCost> _levelCosts;
     private ElixerType _troopType = ElixerType.Normal;
 
     private Integer[] _levels;
 
-    public Goblin(int level)
+    public Wallbreaker(int level)
     {
         _level = level;
         _levelCosts = new ArrayList<>();
-        _levelCosts.add(new LevelCost(1,25));
-        _levelCosts.add(new LevelCost(2,40));
-        _levelCosts.add(new LevelCost(3,60));
-        _levelCosts.add(new LevelCost(4,80));
-        _levelCosts.add(new LevelCost(5,100));
-        _levelCosts.add(new LevelCost(6,150));
+        _levelCosts.add(new LevelCost(1,1000));
+        _levelCosts.add(new LevelCost(2,1500));
+        _levelCosts.add(new LevelCost(3,2000));
+        _levelCosts.add(new LevelCost(4,2500));
+        _levelCosts.add(new LevelCost(5,3000));
+        _levelCosts.add(new LevelCost(6,3500));
 
         _troopCost = GetCost();
 

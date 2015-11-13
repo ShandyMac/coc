@@ -1,4 +1,4 @@
-package coc.helloworld;
+package coc.unitCalculator.configurators;
 
 import android.app.Activity;
 import android.widget.Spinner;

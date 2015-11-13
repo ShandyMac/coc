@@ -1,4 +1,4 @@
-package coc.helloworld;
+package coc.unitCalculator;
 
 import org.junit.Test;
 
