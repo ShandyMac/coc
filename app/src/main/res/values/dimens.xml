@@ -5,4 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="layout_height">75dp</dimen>
     <dimen name="unit_name_width">85dp</dimen>
+
+
+    <dimen name="button_height">75dp</dimen>
 </resources>

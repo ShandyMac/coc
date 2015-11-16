@@ -8,6 +8,10 @@
     <string name="unit_cost"></string>
     <string name="unit_train_time"></string>
 
+    <string name="button_troops">Troops</string>
+    <string name="button_buildings">Buildings</string>
+    <string name="button_unit_calculator">Unit Calculator</string>
+
     <string name="barbarian">Barbarian:</string>
     <string name="archer">Archer:</string>
     <string name="giant">Giant:</string>

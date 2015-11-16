@@ -1,25 +1,32 @@
 package coc.unitCalculator;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import coc.consumables.troops.Archer;
+import coc.consumables.troops.Balloon;
+import coc.consumables.troops.Barbarian;
+import coc.consumables.troops.Dragon;
+import coc.consumables.troops.Giant;
+import coc.consumables.troops.Goblin;
 import coc.consumables.troops.Golem;
+import coc.consumables.troops.Healer;
 import coc.consumables.troops.HogRider;
 import coc.consumables.troops.LavaHound;
 import coc.consumables.troops.Minion;
+import coc.consumables.troops.Pekka;
 import coc.consumables.troops.Valkyrie;
+import coc.consumables.troops.Wallbreaker;
 import coc.consumables.troops.Witch;
+import coc.consumables.troops.Wizard;
 import coc.unitCalculator.configurators.ArcherConfigurator;
 import coc.unitCalculator.configurators.BalloonConfigurator;
 import coc.unitCalculator.configurators.BarbarianConfigurator;
@@ -36,46 +43,35 @@ import coc.unitCalculator.configurators.ValkyrieConfigurator;
 import coc.unitCalculator.configurators.WallbreakerConfigurator;
 import coc.unitCalculator.configurators.WitchConfigurator;
 import coc.unitCalculator.configurators.WizardConfigurator;
-import coc.consumables.troops.Archer;
-import coc.consumables.troops.Balloon;
-import coc.consumables.troops.Barbarian;
-import coc.consumables.troops.Dragon;
-import coc.consumables.troops.Giant;
-import coc.consumables.troops.Goblin;
-import coc.consumables.troops.Healer;
-import coc.consumables.troops.Pekka;
-import coc.consumables.troops.Wallbreaker;
-import coc.consumables.troops.Wizard;
 
-public class MainActivity extends AppCompatActivity {
+public class UnitCalculatorActivity extends AppCompatActivity {
+
     ArrayList<Spinner> spinners;
+    Button btnCalculate;
+    Button btnReset;
+
+    Army army = new Army();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_unit_calculator);
 
-        bindEvents();
-    }
+        ArrayList<Integer> troopCapactiy = new ArrayList<>();
+        for (int i = 0; i < 240; i++) troopCapactiy.add(i);
 
-    private void bindEvents()
-    {
-        Button btnUnitCalculator = (Button)findViewById(R.id.btnUnitCalculator);
+        Integer[] campCapacity = new Integer[troopCapactiy.size()];
+        troopCapactiy.toArray(campCapacity);
 
-        btnUnitCalculator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UnitCalculatorActivity.class);
-                startActivity(intent);
-            }
-        });
+        ConfigureEvents();
+
+        ConfigureSpinners(campCapacity);
 
     }
 
-    /*Unit Calc stuff*/
-    /*private void ConfigureSpinners(Integer[] campCapacity) {
+    private void ConfigureSpinners(Integer[] campCapacity) {
+        spinners = new ArrayList<>();
+
         ConfigureSpinner(R.id.spinnerBarbLevel, Barbarian.GetLevels());
         ConfigureSpinner(R.id.spinnerBarbAmount, campCapacity);
 
@@ -126,17 +122,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ConfigureEvents() {
-        *//*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*//*
-
         btnCalculate = (Button)findViewById(R.id.btnCalculate);
-        btnCalculate.setOnClickListener(this);
+        btnCalculate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                btnCalculateOnClick();
+            }
+        });
+
 
         btnReset = (Button)findViewById(R.id.btnReset);
         btnReset.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 Reset();
             }
         });
-
     }
 
     private void Reset() {
@@ -171,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onClick(View v)
+    public void btnCalculateOnClick()
     {
         BarbarianConfigurator barbConfigurator = new BarbarianConfigurator(this, R.id.spinnerBarbLevel, R.id.spinnerBarbAmount);
         ArcherConfigurator archerConfigurator = new ArcherConfigurator(this, R.id.spinnerArcherLevel, R.id.spinnerArcherAmount);
@@ -219,5 +210,5 @@ public class MainActivity extends AppCompatActivity {
 
         TextView darkCost = (TextView)findViewById(R.id.textViewDarkCost);
         darkCost.setText(""+total.GetTotalDark());
-    }*/
+    }
 }
