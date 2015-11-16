@@ -45,10 +45,12 @@ import coc.unitCalculator.configurators.WitchConfigurator;
 import coc.unitCalculator.configurators.WizardConfigurator;
 
 public class UnitCalculatorActivity extends AppCompatActivity {
+    Button btnReset;
+    Button btnCalculate;
+    TextView cost;
+    TextView darkCost;
 
     ArrayList<Spinner> spinners;
-    Button btnCalculate;
-    Button btnReset;
 
     Army army = new Army();
 
@@ -67,6 +69,8 @@ public class UnitCalculatorActivity extends AppCompatActivity {
 
         ConfigureSpinners(campCapacity);
 
+        cost = (TextView)findViewById(R.id.textViewCost);
+        darkCost = (TextView)findViewById(R.id.textViewDarkCost);
     }
 
     private void ConfigureSpinners(Integer[] campCapacity) {
@@ -130,7 +134,6 @@ public class UnitCalculatorActivity extends AppCompatActivity {
             }
         });
 
-
         btnReset = (Button)findViewById(R.id.btnReset);
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +149,12 @@ public class UnitCalculatorActivity extends AppCompatActivity {
         for (Spinner spinner:spinners){
             spinner.setSelection(0);
         }
+
+        cost = (TextView)findViewById(R.id.textViewCost);
+        cost.setText("0");
+
+        darkCost = (TextView)findViewById(R.id.textViewDarkCost);
+        darkCost.setText("0");
     }
 
     private void ConfigureSpinner(int spinnerId, Integer[] levels) {
@@ -205,7 +214,7 @@ public class UnitCalculatorActivity extends AppCompatActivity {
 
         ArmyCost total = army.GetTotalCost();
 
-        TextView cost = (TextView)findViewById(R.id.textViewCost);
+
         cost.setText(""+total.GetTotal());
 
         TextView darkCost = (TextView)findViewById(R.id.textViewDarkCost);
